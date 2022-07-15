@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
+
 
 class ImageViewScreen extends StatelessWidget {
   const ImageViewScreen({Key? key, required this.imageUrl}) : super(key: key);
@@ -10,7 +10,7 @@ final String imageUrl;
     return Scaffold(
       body: SafeArea(child: Stack(children: [
         Image.network(imageUrl),
-        BackButton(),
+        const BackButton(),
       ],)),
     );
     

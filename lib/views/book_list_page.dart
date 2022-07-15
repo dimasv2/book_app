@@ -1,13 +1,8 @@
 
-import 'dart:convert';
-
 import 'package:book/controllers/book.controller.dart';
-import 'package:book/models/book_list_response.dart';
 import 'package:book/views/detail_book_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class BookListPage extends StatefulWidget {
@@ -19,6 +14,7 @@ class BookListPage extends StatefulWidget {
 
 class _BookListPageState extends State<BookListPage> {
  BookController? bookController;
+ bool isSearching = false;
 
 @override
   void initState() {
@@ -32,10 +28,31 @@ class _BookListPageState extends State<BookListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Book Catalogue"),
+        backgroundColor: Colors.blue,
+        elevation: 0,
+      leading: IconButton(
+       icon: SvgPicture.asset("assets/icons/back.svg", color: Colors.white,), onPressed: (){},
+       ),
+       actions: <Widget>[
+        IconButton(
+           icon: SvgPicture.asset("assets/icons/search.svg", color: Colors.white), onPressed: (){
+            setState(() {
+              this.isSearching = !this.isSearching;
+            });
+           },
+           ),
+          IconButton(
+           icon: SvgPicture.asset("assets/icons/cart.svg", color: Colors.white), onPressed: (){},
+           ),
+       ],
+        title: !isSearching ? Text('Book Catalogue'): TextField(decoration: InputDecoration(
+          icon: Icon(Icons.search),
+          hintText: "Search Book Here", 
+          ),
+          ),
       ),
-      body: Consumer<BookController>(
-        child: Center(child: CircularProgressIndicator()),
+      body:  Consumer<BookController>(
+        child: const Center(child: CircularProgressIndicator()),
         builder: (context, controller, child)=> Container(
         child:  bookController!. bookList == null ?
            child:
@@ -57,6 +74,7 @@ class _BookListPageState extends State<BookListPage> {
                   height: 100,
                   ),
                   Expanded(
+                    
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal:12.0),
                       child: Column(
